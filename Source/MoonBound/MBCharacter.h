@@ -11,9 +11,14 @@ class MOONBOUND_API AMBCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+	bool bCanMove = true;
+
 public:
 	// Sets default values for this character's properties
 	AMBCharacter();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character Settings")
+		float MoveSpeed = 200.f;
 
 protected:
 	// Called when the game starts or when spawned
@@ -25,6 +30,11 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+private:
+
+	void MoveForward(float value);
+	void MoveRight(float value);
 
 	
 	

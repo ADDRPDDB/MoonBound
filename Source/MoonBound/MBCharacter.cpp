@@ -30,5 +30,24 @@ void AMBCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	PlayerInputComponent->BindAxis("Forward", this, &AMBCharacter::MoveForward);
+	PlayerInputComponent->BindAxis("Right", this, &AMBCharacter::MoveRight);
+
+}
+
+void AMBCharacter::MoveForward(float value)
+{
+	if (!bCanMove)
+		return;
+
+	AddMovementInput(GetActorForwardVector(), value*MoveSpeed);
+}
+
+void AMBCharacter::MoveRight(float value)
+{
+	if (!bCanMove)
+		return;
+
+	AddMovementInput(GetActorRightVector(), value*MoveSpeed);
 }
 

@@ -12,6 +12,8 @@ class MOONBOUND_API AMBCharacter : public ACharacter
 	GENERATED_BODY()
 
 	bool bCanMove = true;
+	bool bCanCameraRotate = true;
+	bool bCanInteract = true;
 
 public:
 	// Sets default values for this character's properties
@@ -19,6 +21,11 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character Settings")
 		float MoveSpeed = 200.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character Settings")
+		float RaytraceRange = 600.f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Character Settings")
+		class UCameraComponent *Camera;
 
 protected:
 	// Called when the game starts or when spawned
@@ -35,6 +42,10 @@ private:
 
 	void MoveForward(float value);
 	void MoveRight(float value);
+	void MouseX(float value);
+	void MouseY(float value);
+
+	void Raytrace();
 
 	
 	

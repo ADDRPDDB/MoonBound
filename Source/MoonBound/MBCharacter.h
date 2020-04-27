@@ -15,6 +15,9 @@ class MOONBOUND_API AMBCharacter : public ACharacter
 	bool bCanCameraRotate = true;
 	bool bCanInteract = true;
 
+	UPROPERTY()
+		AActor *LastSeenActor;
+
 public:
 	// Sets default values for this character's properties
 	AMBCharacter();
@@ -22,7 +25,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character Settings")
 		float MoveSpeed = 200.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character Settings")
-		float RaytraceRange = 600.f;
+		float RaytraceRange = 100.f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Character Settings")
 		class UCameraComponent *Camera;
@@ -39,6 +42,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
+
+	void Interact();
 
 	void MoveForward(float value);
 	void MoveRight(float value);

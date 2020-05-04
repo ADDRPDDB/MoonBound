@@ -27,6 +27,7 @@ void AMBCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	LastSeenActor_Prev = nullptr;
 }
 
 // Called every frame
@@ -110,22 +111,34 @@ void AMBCharacter::Raytrace()
 	if (!Result.GetActor())
 	{
 		LastSeenActor = nullptr;
-		return;
-	}
-
-	IInteractable *InteractableActor = Cast<IInteractable>(Result.GetActor());
-
-	if (InteractableActor)
-	{
-		if (Result.GetActor() != LastSeenActor)
-		{
-			LastSeenActor = Result.GetActor();
-			UE_LOG(LogTemp, Warning, TEXT("%s found"), *LastSeenActor->GetName());
-		}
 	}
 	else
 	{
-		LastSeenActor = nullptr;
+
+		IInteractable *InteractableActor = Cast<IInteractable>(Result.GetActor());
+
+		if (InteractableActor)
+		{
+			if (Result.GetActor() != LastSeenActor)
+			{
+				LastSeenActor = Result.GetActor();
+				UE_LOG(LogTemp, Warning, TEXT("%s found"), *LastSeenActor->GetName());
+			}
+		}
+		else
+		{
+			LastSeenActor = nullptr;
+		}
+	}
+	if (LastSeenActor != LastSeenActor_Prev)
+	{
+		if (LastSeenActor_Prev)
+			IInteractable::Execute_SetOutline(LastSeenActor_Prev, false);
+		if(LastSeenActor)
+			IInteractable::Execute_SetOutline(LastSeenActor, true);
+		
+		LastSeenActor_Prev = LastSeenActor;
+		UE_LOG(LogTemp, Warning, TEXT("outline"));
 	}
 }
 

@@ -17,6 +17,8 @@ class MOONBOUND_API AMBCharacter : public ACharacter
 
 	UPROPERTY()
 		AActor *LastSeenActor;
+	UPROPERTY()
+		AActor *LastSeenActor_Prev;
 
 public:
 	// Sets default values for this character's properties

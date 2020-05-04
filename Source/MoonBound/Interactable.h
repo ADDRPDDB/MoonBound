@@ -25,4 +25,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Interaction")
 		void Interact();
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Interaction")
+		void SetOutline(bool status);
 };

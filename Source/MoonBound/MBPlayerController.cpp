@@ -13,6 +13,8 @@ void AMBPlayerController::OnPossess(APawn * InPawn)
 	{
 		InspectWidgetRef = CreateWidget<UInspectWidget>(this, InspectWidgetBP);
 	}
+	else
+		UE_LOG(LogTemp, Warning, TEXT("InspecWidgetBP is nullptr"));
 }
 
 void AMBPlayerController::InspectItem(TArray<struct FSubtitles> subs, UStaticMesh * nmesh)

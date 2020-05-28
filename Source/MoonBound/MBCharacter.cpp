@@ -76,6 +76,8 @@ void AMBCharacter::Interact()
 			bCanInteract = false;
 			bAnyWidgetOpened = true;
 		}
+		else
+			UE_LOG(LogTemp, Warning, TEXT("Player Controller is nullptr"));
 	}
 
 	IInteractable::Execute_Interact(LastSeenActor);
@@ -95,6 +97,8 @@ void AMBCharacter::Esc()
 			bCanCameraRotate = true;
 			bCanInteract = true;
 		}
+		else
+			UE_LOG(LogTemp, Warning, TEXT("Player Controller is nullptr"));
 	}
 }
 

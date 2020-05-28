@@ -11,7 +11,7 @@
 
 UCLASS()
 class MOONBOUND_API ALevel01Item : public AActor, public IInteractable
-{
+{ // TODO wylaczyc interakcje po spakowaniu przedmiotu
 	GENERATED_BODY()
 
 	UPROPERTY()

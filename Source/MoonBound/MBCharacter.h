@@ -14,6 +14,8 @@ class MOONBOUND_API AMBCharacter : public ACharacter
 	bool bCanMove = true;
 	bool bCanCameraRotate = true;
 	bool bCanInteract = true;
+	
+	bool bAnyWidgetOpened = false;
 
 	UPROPERTY()
 		AActor *LastSeenActor;
@@ -46,6 +48,7 @@ public:
 private:
 
 	void Interact();
+	void Esc();
 
 	void MoveForward(float value);
 	void MoveRight(float value);

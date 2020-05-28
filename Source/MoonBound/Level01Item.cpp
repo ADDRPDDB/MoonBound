@@ -2,6 +2,10 @@
 
 
 #include "Level01Item.h"
+#include "PackPoint.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetSystemLibrary.h"
+
 
 // Sets default values
 ALevel01Item::ALevel01Item()
@@ -18,6 +22,8 @@ ALevel01Item::ALevel01Item()
 void ALevel01Item::BeginPlay()
 {
 	Super::BeginPlay();
+
+	PackPoint = UGameplayStatics::GetActorOfClass(GetWorld(), APackPoint::StaticClass());
 	
 }
 
@@ -31,6 +37,14 @@ void ALevel01Item::Tick(float DeltaTime)
 void ALevel01Item::Interact_Implementation()
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s on duty"), *GetName());
+	
+	if (PackPoint)
+	{
+		SetActorLocation(PackPoint->GetActorLocation());
+		FTimerHandle EnablePhysicsTimer;
+		GetWorldTimerManager().SetTimer(EnablePhysicsTimer,this, &ALevel01Item::EnablePhysics, 0.5f, false);
+	}
+	
 }
 
 void ALevel01Item::SetOutline_Implementation(bool status)
@@ -39,5 +53,10 @@ void ALevel01Item::SetOutline_Implementation(bool status)
 		return;
 
 	Mesh->SetRenderCustomDepth(status);
+}
+
+void ALevel01Item::EnablePhysics()
+{
+	Mesh->SetSimulatePhysics(true);
 }
 

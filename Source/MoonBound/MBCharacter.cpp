@@ -3,6 +3,8 @@
 #include "MBCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "Interactable.h"
+#include "Level01Item.h"
+#include "MBPlayerController.h"
 
 
 // Sets default values
@@ -49,17 +51,51 @@ void AMBCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAxis("MouseY", this, &AMBCharacter::MouseY);
 
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AMBCharacter::Interact);
+	PlayerInputComponent->BindAction("Esc", IE_Pressed, this, &AMBCharacter::Esc);
 
 }
 
 void AMBCharacter::Interact()
 {
+	
 	if (!bCanInteract)
 		return;
 	if (!LastSeenActor)
 		return;
 
+	if (Cast<ALevel01Item>(LastSeenActor))
+	{
+		ALevel01Item *temp = Cast<ALevel01Item>(LastSeenActor);
+		AMBPlayerController *ctrl = Cast<AMBPlayerController>(GetController());
+
+		if (ctrl)
+		{
+			ctrl->InspectItem(temp->GetSubtitles(), temp->GetMesh());
+			bCanMove = false;
+			bCanCameraRotate = false;
+			bCanInteract = false;
+			bAnyWidgetOpened = true;
+		}
+	}
+
 	IInteractable::Execute_Interact(LastSeenActor);
+}
+
+void AMBCharacter::Esc()
+{
+	if (bAnyWidgetOpened)
+	{
+		AMBPlayerController *ctrl = Cast<AMBPlayerController>(GetController());
+
+		if (ctrl)
+		{
+			ctrl->CloseWidgets();
+			bAnyWidgetOpened = false;
+			bCanMove = true;
+			bCanCameraRotate = true;
+			bCanInteract = true;
+		}
+	}
 }
 
 void AMBCharacter::MoveForward(float value)
